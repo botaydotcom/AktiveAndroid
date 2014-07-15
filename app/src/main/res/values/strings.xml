@@ -4,5 +4,7 @@
     <string name="app_name">Aktive</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="api_host_url">http://192.168.56.1:3000</string>
+    <string name="no_network_connection_toast">No network connection</string>
+    <string name="app_id">778254465528667</string>
 </resources>
