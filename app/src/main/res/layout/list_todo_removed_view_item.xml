@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+    <TextView
+        android:id="@+id/removed_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="48dp"
+        android:paddingRight="48dp"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"
+        android:text="@string/finished_item_text_view"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/removed_text_view"
+        android:gravity="center_horizontal"
+        android:text="@string/undo_button"
+        android:textSize="16sp"
+        android:paddingTop="8dp"
+        android:textColor="@color/aktive_orange_normal"/>
+
+</RelativeLayout>

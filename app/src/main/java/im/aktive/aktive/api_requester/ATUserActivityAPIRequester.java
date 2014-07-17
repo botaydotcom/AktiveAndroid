@@ -1,0 +1,29 @@
+package im.aktive.aktive.api_requester;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import im.aktive.aktive.network.ATNetworkCallback;
+
+/**
+ * Created by hoangtran on 17/7/14.
+ */
+public class ATUserActivityAPIRequester {
+    private static final String TAG = "ATUserActivityAPIRequester";
+    public static final String GET_PROFILE_ACTIVITY_LIST = "/api/profile/user_activities.json";
+
+    private ATAPIManager apiManager;
+
+    public ATUserActivityAPIRequester()
+    {
+        apiManager = ATAPIManager.getInstance();
+    }
+
+    public boolean fetchTodoUserActivity(int offset, int limit, final ATNetworkCallback callback) {
+        Map<String, String> queryParams = new HashMap<String,String>();
+        queryParams.put("offset", String.valueOf(offset));
+        queryParams.put("limit", String.valueOf(limit));
+        boolean result = apiManager.requestAsync(GET_PROFILE_ACTIVITY_LIST, "GET", queryParams, null, callback);
+        return result;
+    }
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/list_item_padding"
+    android:background="@drawable/list_todo_item_background">
+    <ToggleButton
+        android:id="@+id/check_button"
+        android:layout_width="@dimen/big_tick_width"
+        android:layout_height="@dimen/big_tick_height"
+        android:textOn=""
+        android:textOff=""
+        android:background="@drawable/big_tick_drawable"/>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_height="@dimen/big_tick_height"
+        android:layout_width="0.5dp"
+        android:background="@color/aktive_grey_light"
+        android:layout_toRightOf="@id/check_button"
+        android:layout_marginLeft="8dp"
+        />
+
+    <ImageButton
+        android:id="@+id/action_button"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignParentRight="true"
+        android:scaleType="center"
+        android:background="@android:color/transparent"
+        android:src="@drawable/icon_down_arrow" />
+
+    <TextView
+        android:id="@+id/item_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/separator"
+        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@id/action_button"
+        android:layout_marginRight="8dp"
+        android:text="Cook breakfast"/>
+
+    <TextView
+        android:id="@+id/item_deadline_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_below="@id/item_name_tv"
+        android:layout_marginTop="4dp"
+        android:layout_alignLeft="@id/item_name_tv"
+        android:layout_alignRight="@id/item_name_tv"
+        android:text="by today at 8pm"/>
+
+</RelativeLayout>

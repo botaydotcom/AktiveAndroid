@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +28,7 @@ public class ATStartupActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCallWrapper = new ATAPICallWrapper(this);
+        mCallWrapper = new ATAPICallWrapper();
         tryRetrieveFacebookSession(savedInstanceState);
         setContentView(R.layout.activity_startup);
         Button loginEmailButton = (Button)findViewById(R.id.button_loggin_email);
@@ -116,7 +115,10 @@ public class ATStartupActivity extends ActionBarActivity {
 
     private void transitionToHomeActivity() {
         Toast.makeText(this, "Login successfully... " +
-                ATUserManager.getInstance().getCurrentUser().fullName, Toast.LENGTH_LONG).show();
+                ATUserManager.getInstance().getCurrentUser().getFullName(), Toast.LENGTH_LONG).show();
+        Intent i = new Intent(this, ATHomeActivity.class);
+        this.startActivity(i);
+        this.finish();
     }
 
     @Override

@@ -63,7 +63,7 @@ public class ATUserManager extends ATBaseManager<ATUser>{
         if (user == null) {
             return false;
         }
-        return currentUser.id == user.id;
+        return currentUser.getId() == user.getId();
     }
 
     @Override
@@ -91,8 +91,8 @@ public class ATUserManager extends ATBaseManager<ATUser>{
                 // LoginCallback.onFailed(result);
             }
             userJSON = object.getJSONObject("user");
-            ATSerializer<ATUser> userSerializer = (ATSerializer<ATUser>) (ATUserProfileSerializer
-                    .deserialize(userJSON));
+            ATUserProfileSerializer userSerializer = new ATUserProfileSerializer()
+                    .deserialize(userJSON);
             ATUser user = updateFromSerializer(userSerializer);
             setCurrentUser(user);
 			/*if (user != null)
@@ -100,7 +100,7 @@ public class ATUserManager extends ATBaseManager<ATUser>{
 				BugSenseHandler.setUserIdentifier(String.valueOf(user.id));
 			}*/
             //ATGoogleAnalyticsManager.setUserId(user.id);
-            //ATGlobalEventDispatchManager.getInstance().onPostLogin(user);
+            ATGlobalEventDispatchManager.getInstance().onPostLogin(user);
             return user;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -218,9 +218,9 @@ public class ATUserManager extends ATBaseManager<ATUser>{
     protected void setCurrentUser(ATUser user) {
         currentUser = user;
         if (user != null) {
-            currentUserId = user.id;
+            currentUserId = user.getId();
             new ATUserPreferenceWrapper(ATApplication.getInstance())
-                    .saveAndCommitToPreference(USER_ID_PREF_KEY, user.id);
+                    .saveAndCommitToPreference(USER_ID_PREF_KEY, user.getId());
         } else {
             new ATUserPreferenceWrapper(ATApplication.getInstance())
                     .removeAndCommitPreference(USER_ID_PREF_KEY);
@@ -234,8 +234,7 @@ public class ATUserManager extends ATBaseManager<ATUser>{
     public ATUser getOrCreateUser(int userId) {
         ATUser user = mapUser.get(Integer.valueOf(userId));
         if (user == null) {
-            user = new ATUser();
-            user.id = userId;
+            user = new ATUser(userId);
             mapUser.put(Integer.valueOf(userId), user);
         }
         return user;
@@ -247,7 +246,7 @@ public class ATUserManager extends ATBaseManager<ATUser>{
 
     public int getCurrentUserId() {
         if (currentUser != null) {
-            return currentUser.id;
+            return currentUser.getId();
         }
         return -1;
     }

@@ -3,6 +3,7 @@ package im.aktive.aktive.manager;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import im.aktive.aktive.ATApplication;
@@ -61,7 +62,7 @@ public class ATBaseManager<T> implements ATGlobalEventCallbackInterface {
             }
         }
 
-        public final void addObserver(ATModelUpdateCallback observer)
+        public synchronized void addObserver(ATModelUpdateCallback observer)
         {
             if (!listCallback.contains(observer))
             {
@@ -69,7 +70,7 @@ public class ATBaseManager<T> implements ATGlobalEventCallbackInterface {
             }
         }
 
-        public final void removeObserver(ATModelUpdateCallback observer)
+        public synchronized void removeObserver(ATModelUpdateCallback observer)
         {
             if (listCallback.contains(observer))
             {
@@ -83,9 +84,14 @@ public class ATBaseManager<T> implements ATGlobalEventCallbackInterface {
 
                 @Override
                 public void run() {
-                    for (int i = 0; i < listCallback.size(); i++)
+                    List<ATModelUpdateCallback> listCallbackToCall = new ArrayList<ATModelUpdateCallback>();
+                    synchronized (this)
                     {
-                        ATModelUpdateCallback callback = listCallback.get(i);
+                        listCallbackToCall.addAll(listCallback);
+                    }
+                    for (int i = 0; i < listCallbackToCall.size(); i++)
+                    {
+                        ATModelUpdateCallback callback = listCallbackToCall.get(i);
                         callback.onModelUpdated();
                     }
                 }
@@ -115,7 +121,7 @@ public class ATBaseManager<T> implements ATGlobalEventCallbackInterface {
             });
         }
 
-        public ArrayList<T> updateFromListSerializer(ATSerializer<T> serializerList[])
+        public List<T> updateFromListSerializer(ATSerializer<T> serializerList[])
         {
             if (serializerList == null)
             {
@@ -172,6 +178,11 @@ public class ATBaseManager<T> implements ATGlobalEventCallbackInterface {
 
         public void init() {
             ATGlobalEventDispatchManager.getInstance().registerCallbackForDispatch(this);
+        }
+
+        public ATBaseManager()
+        {
+            init();
         }
     }
 

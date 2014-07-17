@@ -17,14 +17,12 @@ import im.aktive.aktive.network.ATNetworkCallback;
  */
 public class ATAPICallWrapper {
 
-    private Activity mActivivty = null;
     private Map<Integer, ATModelRequestCallback> mapModelRequestCallback =
             new HashMap<Integer, ATModelRequestCallback>();
     private ReentrantLock mapLock = new ReentrantLock();
 
-    public ATAPICallWrapper(Activity activity)
+    public ATAPICallWrapper()
     {
-        mActivivty =  activity;
     }
 
     public void onRequestSuccessful(int requestId, Object result)

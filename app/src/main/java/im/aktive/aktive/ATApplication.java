@@ -2,7 +2,9 @@ package im.aktive.aktive;
 
 import android.app.Application;
 
+import im.aktive.aktive.manager.ATUserActivityManager;
 import im.aktive.aktive.manager.ATUserManager;
+import im.aktive.aktive.notification.ATGlobalEventDispatchManager;
 import im.aktive.vendor.ICDispatch.ICDispatchApplication;
 
 /**
@@ -22,8 +24,10 @@ public class ATApplication extends ICDispatchApplication{
     }
 
     private void init() {
-        //ATUserManager.getInstance();
-        //AT
+        ATGlobalEventDispatchManager.init();
+        ATUserManager.getInstance();
+        //ATActivityManager.getInstance();
+        ATUserActivityManager.getInstance();
     }
 
     public static synchronized ATApplication getInstance() {
