@@ -15,10 +15,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import im.aktive.aktive.api_requester.ATUserAPIRequester;
 import im.aktive.aktive.api_requester.ATUserActivityAPIRequester;
 import im.aktive.aktive.model.ATActivity;
 import im.aktive.aktive.model.ATUser;
 import im.aktive.aktive.model.ATUserActivity;
+import im.aktive.aktive.model.ATWrappedModelRequestCallback;
 import im.aktive.aktive.network.ATNetworkCallback;
 import im.aktive.aktive.serializer.ATUserActivityInListSerializer;
 
@@ -107,5 +109,32 @@ public class ATUserActivityManager extends ATBaseManager<ATUserActivity>{
     public void onPostLogin(ATUser user)
     {
         fetchTodoUserActivity();
+    }
+
+    public boolean postTodoUserActivity(ATActivity activity, Date deadline, ATWrappedModelRequestCallback cb) {
+        final int requestId = addRequestCallback(cb);
+        ATNetworkCallback callback = new ATNetworkCallback() {
+
+            @Override
+            public void onFinished(JSONObject jsonObject) {
+                try {
+                    JSONObject userActivityObject = jsonObject.getJSONObject("user_activity");
+                    ATUserActivityInListSerializer userActivitySerializer =
+                            new ATUserActivityInListSerializer().deserialize(userActivityObject);
+                    ATUserActivity userActivity = updateFromSerializer(userActivitySerializer);
+                    deliverResult(requestId, true, userActivity, null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    onFailed("Cannot parse response from server");
+                }
+            }
+
+            @Override
+            public void onFailed(String errMsg) {
+                deliverResult(requestId, true, null, errMsg);
+            }
+        };
+        ATUserActivityAPIRequester controller = new ATUserActivityAPIRequester();
+        return controller.postTodoUserActivity(activity, deadline, callback);
     }
 }

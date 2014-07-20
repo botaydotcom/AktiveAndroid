@@ -31,4 +31,12 @@
     <string name="onboarding_skip_text">Ok, done</string>
     <string name="set_action">Set</string>
     <string name="cancel_action">Cancel</string>
+    <string name="title_activity_atadd_new_user_todo">New Activity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="hint_new_todo">What would you like to do?</string>
+    <string name="i_ll_do_it_by">I\'ll do it by</string>
+    <string name="ok_done_action">Ok, done</string>
+    <string name="activity_name_too_short_notice">Please provide a name for your activity</string>
+    <string name="hint_new_todo_description">Some descriptions for this activity</string>
+
 </resources>

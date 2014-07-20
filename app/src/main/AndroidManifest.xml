@@ -40,6 +40,10 @@
             android:name=".ATOnboardingActivity"
             android:label="@string/title_activity_atonboarding" >
         </activity>
+        <activity
+            android:name=".ATAddNewUserTodoActivity"
+            android:label="@string/title_activity_atadd_new_user_todo" >
+        </activity>
     </application>
 
 </manifest>

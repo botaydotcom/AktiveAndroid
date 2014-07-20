@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="im.aktive.aktive.ATAddNewUserTodoActivity">
+
+    <EditText
+        android:id="@+id/new_todo_name_edittext"
+        android:text=""
+        android:maxLines="2"
+        android:hint="@string/hint_new_todo"
+        android:layout_width="match_parent"
+        android:textSize="20sp"
+        android:gravity="top|left"
+        android:layout_height="70dp" />
+
+    <EditText
+        android:id="@+id/new_todo_description_edittext"
+        android:text=""
+        android:maxLines="3"
+        android:hint="@string/hint_new_todo_description"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/new_todo_name_edittext"
+        android:layout_marginTop="16dp"
+        android:textSize="20sp"
+        android:gravity="top|left" />
+
+    <TextView
+        android:id="@+id/deadline_title_textview"
+        android:text="@string/i_ll_do_it_by"
+        android:layout_centerVertical="true"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/deadline_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/deadline_title_textview"
+        android:layout_alignBaseline="@id/deadline_title_textview"
+        android:layout_marginLeft="5dp"
+        android:textSize="20sp"
+        android:textColor="@color/aktive_orange_normal"
+        android:drawableLeft="@drawable/icon_calendar"
+        android:text="Jul, 24, 2014 at 10:10pm"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/deadline_title_textview"
+        android:layout_marginTop="100dp"
+        >
+        <TextView
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_action"
+            android:textSize="24sp"
+            android:gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/ok_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/ok_done_action"
+            android:textSize="24sp"
+            android:textColor="@color/aktive_orange_normal"
+            android:gravity="center_horizontal"/>
+        </LinearLayout>
+
+</RelativeLayout>

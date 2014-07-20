@@ -2,6 +2,7 @@ package im.aktive.aktive;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,10 +21,7 @@ import java.util.List;
 
 import im.aktive.aktive.api_requester.ATAPICallWrapper;
 import im.aktive.aktive.manager.ATUserActivityManager;
-import im.aktive.aktive.manager.ATUserManager;
 import im.aktive.aktive.model.ATModelUpdateCallback;
-import im.aktive.aktive.model.ATUser;
-import im.aktive.aktive.model.ATActivity;
 import im.aktive.aktive.model.ATUserActivity;
 
 /**
@@ -44,6 +44,8 @@ public class ATTodoFragment extends Fragment implements ATModelUpdateCallback{
 
     private ListView mListView = null;
     private GeneralListAdapter mListAdapter = null;
+    private RelativeLayout mAddPanel = null;
+    private Button mAddButton = null;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -74,11 +76,65 @@ public class ATTodoFragment extends Fragment implements ATModelUpdateCallback{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_todo, container, false);
         mListView = (ListView) view.findViewById(R.id.list_todo);
         mListAdapter = new GeneralListAdapter(getActivity());
         mListView.setAdapter(mListAdapter);
+        mAddButton = (Button) view.findViewById(R.id.add_button);
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAddButtonClicked();
+            }
+        });
+
+        // Add Panel
+        mAddPanel = (RelativeLayout) view.findViewById(R.id.add_panel);
+        mAddPanel.setVisibility(View.GONE);
+        Button cancelButton = (Button)mAddPanel.findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCancelButtonClicked();
+            }
+        });
+        TextView suggestActivityButton = (TextView) mAddPanel.findViewById(R.id.suggest_me_button);
+        suggestActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSuggestNewActivityClicked();
+            }
+        });
+
+        TextView newActivityButton = (TextView) mAddPanel.findViewById(R.id.i_decide_button);
+        newActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCreateNewActivityClicked();
+            }
+        });
+
         return view;
+    }
+
+    private void onSuggestNewActivityClicked() {
+    }
+
+    private void onCreateNewActivityClicked() {
+        Intent i = new Intent(getActivity(), ATAddNewUserTodoActivity.class);
+        getActivity().startActivity(i);
+    }
+
+    private void onAddButtonClicked()
+    {
+        mAddPanel.setVisibility(View.VISIBLE);
+        mAddButton.setVisibility(View.GONE);
+    }
+
+    private void onCancelButtonClicked()
+    {
+        mAddPanel.setVisibility(View.GONE);
+        mAddButton.setVisibility(View.VISIBLE);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -116,6 +172,7 @@ public class ATTodoFragment extends Fragment implements ATModelUpdateCallback{
 
     @Override
     public void onPause() {
+        super.onPause();
         ATUserActivityManager.getInstance().removeObserver(this);
     }
 
