@@ -33,6 +33,8 @@ public class ATUser implements Serializable{
     private String coverImageMedium;
     private int numFriends;
 
+    private boolean completedOnboarding;
+
     public ATUser(int id) {
         this.id = id;
     }
@@ -207,6 +209,14 @@ public class ATUser implements Serializable{
 
     public void setFriendRequestSent(boolean friendRequestSent) {
         this.friendRequestSent = friendRequestSent;
+    }
+
+    public boolean isCompletedOnboarding() {
+        return completedOnboarding;
+    }
+
+    public void setCompletedOnboarding(boolean completedOnboarding) {
+        this.completedOnboarding = completedOnboarding;
     }
 
     public void prepareEditing()

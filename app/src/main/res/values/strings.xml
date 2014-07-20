@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Aktive</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="api_host_url">http://192.168.56.1:3000</string>
     <string name="no_network_connection_toast">No network connection</string>
@@ -19,5 +18,17 @@
     <string name="i_decide_button">I\'ll decide</string>
     <string name="finished_item_text_view">Cool, the activity is completed and now visible on your Timeline</string>
     <string name="undo_button">Undo</string>
-
+    <string name="title_activity_atonboarding">Onboarding</string>
+    <string name="onboarding_greeting">Great, you are now part of our community! Let\'s introduce yourself a bit :)</string>
+    <string name="onboarding_start_command">Yeah, let\'s go</string>
+    <string name="onboarding_finish">Cool, looks like you are all set. How about we start now?</string>
+    <string name="onboarding_finish_command">I like it</string>
+    <string name="onboarding_question_gender">You are ...</string>
+    <string name="onboarding_gender_male">male</string>
+    <string name="onboarding_gender_female">female</string>
+    <string name="onboarding_question_birthday">Your birthday is ...</string>
+    <string name="onboarding_select_date">Select a date</string>
+    <string name="onboarding_skip_text">Ok, done</string>
+    <string name="set_action">Set</string>
+    <string name="cancel_action">Cancel</string>
 </resources>

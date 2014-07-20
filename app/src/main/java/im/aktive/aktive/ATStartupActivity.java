@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.facebook.LoggingBehavior;
@@ -16,6 +17,7 @@ import com.facebook.SessionState;
 import com.facebook.Settings;
 
 import im.aktive.aktive.api_requester.ATAPICallWrapper;
+import im.aktive.aktive.manager.ATTagManager;
 import im.aktive.aktive.manager.ATUserManager;
 import im.aktive.aktive.model.ATWrappedModelRequestCallback;
 
@@ -23,6 +25,7 @@ import im.aktive.aktive.model.ATWrappedModelRequestCallback;
 public class ATStartupActivity extends ActionBarActivity {
     private ATAPICallWrapper mCallWrapper = null;
     private String mFbAccessToken = null;
+    private RadioGroup mIndicatorGroup = null;
 
     private Session.StatusCallback statusCallback = new SessionStatusCallback();
     @Override
@@ -114,11 +117,29 @@ public class ATStartupActivity extends ActionBarActivity {
     }
 
     private void transitionToHomeActivity() {
+        boolean completedOnboarding = ATUserManager.getInstance().getCurrentUser().isCompletedOnboarding();
         Toast.makeText(this, "Login successfully... " +
                 ATUserManager.getInstance().getCurrentUser().getFullName(), Toast.LENGTH_LONG).show();
-        Intent i = new Intent(this, ATHomeActivity.class);
-        this.startActivity(i);
-        this.finish();
+        if (!completedOnboarding)
+        {
+            ATTagManager.getInstance().fetchTagsForFirstTime(new ATWrappedModelRequestCallback(mCallWrapper) {
+                @Override
+                public void onSuccess(Object object) {
+                    Intent i = new Intent(ATStartupActivity.this, ATOnboardingActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+
+                @Override
+                public void onFailed(String msg) {
+                    Toast.makeText(ATStartupActivity.this, msg, Toast.LENGTH_LONG).show();
+                }
+            });
+        } else {
+            Intent i = new Intent(this, ATHomeActivity.class);
+            this.startActivity(i);
+            this.finish();
+        }
     }
 
     @Override

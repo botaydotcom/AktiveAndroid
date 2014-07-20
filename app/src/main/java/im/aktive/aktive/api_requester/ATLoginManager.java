@@ -112,11 +112,11 @@ public class ATLoginManager {
 			@Override
 			public void onFinished(JSONObject jsonResult) {
 				try {
-					if (!jsonResult.has("success"))
+					if (!jsonResult.has("status"))
 					{
 						callback.onFailed("Cannot get response from server.");
 					}
-					boolean code = jsonResult.getBoolean("success");
+					boolean code = jsonResult.getBoolean("status");
 					if (!code)
 					{
 						callback.onFailed("Cannot get response from server.");
@@ -159,11 +159,11 @@ public class ATLoginManager {
 			@Override
 			public void onFinished(JSONObject jsonResult) {
 				try {
-					if (!jsonResult.has("success"))
+					if (!jsonResult.has("status"))
 					{
 						callback.onFailed("Cannot get response from server.");
 					}
-					boolean code = jsonResult.getBoolean("success");
+					boolean code = jsonResult.getBoolean("status");
 					if (!code)
 					{
 						callback.onFailed("Cannot get response from server.");
@@ -211,11 +211,11 @@ public class ATLoginManager {
 			@Override
 			public void onFinished(JSONObject jsonResult) {
 				try {
-					if (!jsonResult.has("success"))
+					if (!jsonResult.has("status"))
 					{
 						callback.onFailed("Cannot get response from server.");
 					}
-					boolean code = jsonResult.getBoolean("success");
+					boolean code = jsonResult.getBoolean("status");
 					if (!code)
 					{
 						callback.onFailed("Cannot get response from server.");
@@ -278,9 +278,9 @@ public class ATLoginManager {
 			@Override
 			public void onFinished(JSONObject jsonResult) {
 				try {
-					if (jsonResult.has("success"))
+					if (jsonResult.has("status"))
 					{
-						boolean code = jsonResult.getBoolean("success");
+						boolean code = jsonResult.getBoolean("status");
 						if (!code)
 						{
 							callback.onFailed("Cannot get response from server.");

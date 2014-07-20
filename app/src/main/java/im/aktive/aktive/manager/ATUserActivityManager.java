@@ -26,9 +26,10 @@ import im.aktive.aktive.serializer.ATUserActivityInListSerializer;
  * Created by hoangtran on 16/7/14.
  */
 public class ATUserActivityManager extends ATBaseManager<ATUserActivity>{
-    protected static final String TAG = "UserManager";
+    private static final String TAG = "UserManager";
     private Map<Integer, ATUserActivity> mapUserActivity = new HashMap<Integer, ATUserActivity>();
     private static ATUserActivityManager instance = null;
+    private int currentOffsetDoneList = 0;
 
     private ATUserActivityManager() {
     }
@@ -58,7 +59,6 @@ public class ATUserActivityManager extends ATBaseManager<ATUserActivity>{
         return userActivity;
     }
 
-    int currentOffsetDoneList = 0;
     public List<ATUserActivity> getListTodoUserActivity()
     {
         List<ATUserActivity> listResult = new ArrayList<ATUserActivity>();

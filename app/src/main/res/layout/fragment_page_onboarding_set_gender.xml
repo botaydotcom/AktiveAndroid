@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp">
+
+    <TextView
+        android:id="@+id/text_onboard_question_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_question_gender"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        android:layout_marginTop="120dp"
+        />
+
+
+    <TextView
+        android:id="@+id/text_answer_male"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_gender_male"
+        android:layout_marginTop="250dp"
+        android:textColor="@color/aktive_orange_normal"
+        android:textSize="24sp"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="64dp"/>
+
+    <TextView
+        android:id="@+id/text_answer_female"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_gender_female"
+        android:layout_marginTop="250dp"
+        android:textColor="@color/aktive_orange_normal"
+        android:textSize="24sp"
+        android:gravity="center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="64dp"/>
+
+</RelativeLayout>

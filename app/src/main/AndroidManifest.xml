@@ -36,6 +36,10 @@
             android:name=".ATHomeActivity"
             android:label="@string/title_activity_home" >
         </activity>
+        <activity
+            android:name=".ATOnboardingActivity"
+            android:label="@string/title_activity_atonboarding" >
+        </activity>
     </application>
 
 </manifest>

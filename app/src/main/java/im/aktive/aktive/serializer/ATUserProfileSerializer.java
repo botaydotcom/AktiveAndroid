@@ -44,6 +44,7 @@ public class ATUserProfileSerializer extends ATBaseSerializer<ATUserProfileSeria
 	public String avatar_image;
 	public String avatar_image_medium;
 	public String avatar_image_small;
+    public boolean completed_onboarding;
 
 	public ATUser toObject()
 	{
@@ -56,6 +57,7 @@ public class ATUserProfileSerializer extends ATBaseSerializer<ATUserProfileSeria
 		user.setAvatarImage(avatar_image);
 		user.setAvatarImageMedium(avatar_image_medium);
 		user.setAvatarImageSmall(avatar_image_small);
+        user.setCompletedOnboarding(completed_onboarding);
 		if (birth_day != null)
 		{
 			/*user.birthday = ATDateTimeUtils.birthdayStringToDate(birth_day);*/

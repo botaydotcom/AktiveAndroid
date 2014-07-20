@@ -9,10 +9,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import im.aktive.aktive.ATApplication;
 import im.aktive.aktive.api_requester.ATAPICallWrapper;
 import im.aktive.aktive.api_requester.ATLoginManager;
+import im.aktive.aktive.api_requester.ATUserAPIRequester;
 import im.aktive.aktive.model.ATModelRequestCallback;
 import im.aktive.aktive.model.ATUser;
 import im.aktive.aktive.model.ATWrappedModelRequestCallback;
@@ -85,7 +87,7 @@ public class ATUserManager extends ATBaseManager<ATUser>{
     private ATUser processLoginInfo(JSONObject object) {
         boolean result;
         try {
-            result = object.getBoolean("success");
+            result = object.getBoolean("status");
             JSONObject userJSON;
             if (!result) {
                 // LoginCallback.onFailed(result);
@@ -145,7 +147,7 @@ public class ATUserManager extends ATBaseManager<ATUser>{
 
             @Override
             public void onFailed(String errMsg) {
-                deliverResult(requestId, true, null, errMsg);
+                deliverResult(requestId, false, null, errMsg);
             }
         };
         return ATLoginManager.getInstance().loginExternal(provider,
@@ -249,5 +251,67 @@ public class ATUserManager extends ATBaseManager<ATUser>{
             return currentUser.getId();
         }
         return -1;
+    }
+
+    public boolean updateUserToServer(ATUser user, ATWrappedModelRequestCallback cb) {
+        final int requestId = addRequestCallback(cb);
+        ATNetworkCallback callback = new ATNetworkCallback() {
+
+            @Override
+            public void onFinished(JSONObject jsonObject) {
+                try {
+                    boolean result = jsonObject.getBoolean("status");
+                    JSONObject userJSON;
+                    if (!result) {
+                        onFailed("Cannot update with server. Please try again later");
+                    }
+                    userJSON = jsonObject.getJSONObject("user");
+                    ATUserProfileSerializer userSerializer = new ATUserProfileSerializer()
+                            .deserialize(userJSON);
+                    ATUser user = updateFromSerializer(userSerializer);
+                    deliverResult(requestId, true, user, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    onFailed("Cannot parse response from server");
+                }
+            }
+
+            @Override
+            public void onFailed(String errMsg) {
+                deliverResult(requestId, true, null, errMsg);
+            }
+        };
+        ATUserAPIRequester controller = new ATUserAPIRequester();
+        return controller.updateUser(user, callback);
+    }
+
+
+    public boolean inputTagFirstTime(Map<Integer, Integer> mMapTagAnswer,
+                                  ATWrappedModelRequestCallback cb) {
+        final int requestId = addRequestCallback(cb);
+        ATNetworkCallback callback = new ATNetworkCallback() {
+
+            @Override
+            public void onFinished(JSONObject jsonObject) {
+                try {
+                    boolean result = jsonObject.getBoolean("status");
+                    JSONObject userJSON;
+                    if (!result) {
+                        onFailed("Cannot update with server. Please try again later");
+                    }
+                    deliverResult(requestId, true, null, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    onFailed("Cannot parse response from server");
+                }
+            }
+
+            @Override
+            public void onFailed(String errMsg) {
+                deliverResult(requestId, true, null, errMsg);
+            }
+        };
+        ATUserAPIRequester controller = new ATUserAPIRequester();
+        return controller.inputTagFirstTime(mMapTagAnswer, callback);
     }
 }

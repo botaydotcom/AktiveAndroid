@@ -21,6 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
@@ -146,11 +147,13 @@ public class ATNetworkManager {
         } else {
             urlStr = getGetUrl(serverUrl, path, null);
         }
+        Log.d(TAG, "Request: " + methodStr + " to: " + urlStr);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(method,
                 urlStr, jsonObject,
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d(TAG, "Successful: " + response.toString());
                         callback.onFinished(response);
                     }
                 },

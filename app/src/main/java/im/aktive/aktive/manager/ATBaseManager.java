@@ -50,7 +50,7 @@ public class ATBaseManager<T> implements ATGlobalEventCallbackInterface {
                 apiCallWrapperRef = requestMap.get(Integer.valueOf(requestId));
                 requestMap.remove(Integer.valueOf(requestId));
             }
-            if (apiCallWrapperRef == null && apiCallWrapperRef.get() == null)
+            if (apiCallWrapperRef == null || apiCallWrapperRef.get() == null)
             {
                 return;
             }
