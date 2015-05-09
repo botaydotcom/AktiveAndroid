@@ -2,6 +2,9 @@ package im.aktive.aktive.manager;
 
 import android.util.Pair;
 
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,12 +18,16 @@ import im.aktive.aktive.ATApplication;
 import im.aktive.aktive.api_requester.ATAPICallWrapper;
 import im.aktive.aktive.api_requester.ATLoginManager;
 import im.aktive.aktive.api_requester.ATUserAPIRequester;
+import im.aktive.aktive.model.ATActivity;
 import im.aktive.aktive.model.ATModelRequestCallback;
+import im.aktive.aktive.model.ATTag;
 import im.aktive.aktive.model.ATUser;
 import im.aktive.aktive.model.ATWrappedModelRequestCallback;
 import im.aktive.aktive.network.ATNetworkCallback;
 import im.aktive.aktive.notification.ATGlobalEventDispatchManager;
+import im.aktive.aktive.serializer.ATActivitySerializer;
 import im.aktive.aktive.serializer.ATSerializer;
+import im.aktive.aktive.serializer.ATTagSerializer;
 import im.aktive.aktive.serializer.ATUserProfileSerializer;
 import im.aktive.aktive.util.ATUserPreferenceWrapper;
 
@@ -278,13 +285,45 @@ public class ATUserManager extends ATBaseManager<ATUser>{
 
             @Override
             public void onFailed(String errMsg) {
-                deliverResult(requestId, true, null, errMsg);
+                deliverResult(requestId, false, null, errMsg);
             }
         };
         ATUserAPIRequester controller = new ATUserAPIRequester();
         return controller.updateUser(user, callback);
     }
 
+    public boolean inputTag(Map<Integer, Integer> mMapTagAnswer,
+                                     ATWrappedModelRequestCallback cb) {
+        final int requestId = addRequestCallback(cb);
+        ATNetworkCallback callback = new ATNetworkCallback() {
+
+            @Override
+            public void onFinished(JSONObject jsonObject) {
+                try {
+                    JSONArray activityArray = jsonObject.getJSONArray("result");
+                    ATActivitySerializer[] activitySerializerList = new ATActivitySerializer[activityArray.length()];
+                    for (int i = 0; i < activityArray.length(); i++)
+                    {
+                        JSONObject object = activityArray.getJSONObject(i);
+                        ATActivitySerializer activitySerializer = new ATActivitySerializer().deserialize(object);
+                        activitySerializerList[i] = activitySerializer;
+                    }
+                    List<ATActivity> listActivities = ATActivityManager.getInstance().updateFromListSerializer(activitySerializerList);
+                    deliverResult(requestId, true, listActivities, null);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    onFailed("Cannot parse response from server");
+                }
+            }
+
+            @Override
+            public void onFailed(String errMsg) {
+                deliverResult(requestId, false, null, errMsg);
+            }
+        };
+        ATUserAPIRequester controller = new ATUserAPIRequester();
+        return controller.inputTag(mMapTagAnswer, callback);
+    }
 
     public boolean inputTagFirstTime(Map<Integer, Integer> mMapTagAnswer,
                                   ATWrappedModelRequestCallback cb) {
@@ -294,12 +333,16 @@ public class ATUserManager extends ATBaseManager<ATUser>{
             @Override
             public void onFinished(JSONObject jsonObject) {
                 try {
-                    boolean result = jsonObject.getBoolean("status");
-                    JSONObject userJSON;
-                    if (!result) {
-                        onFailed("Cannot update with server. Please try again later");
+                    JSONArray activityArray = jsonObject.getJSONArray("result");
+                    ATActivitySerializer[] activitySerializerList = new ATActivitySerializer[activityArray.length()];
+                    for (int i = 0; i < activityArray.length(); i++)
+                    {
+                        JSONObject object = activityArray.getJSONObject(i);
+                        ATActivitySerializer activitySerializer = new ATActivitySerializer().deserialize(object);
+                        activitySerializerList[i] = activitySerializer;
                     }
-                    deliverResult(requestId, true, null, null);
+                    List<ATActivity> listActivities = ATActivityManager.getInstance().updateFromListSerializer(activitySerializerList);
+                    deliverResult(requestId, true, listActivities, null);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     onFailed("Cannot parse response from server");

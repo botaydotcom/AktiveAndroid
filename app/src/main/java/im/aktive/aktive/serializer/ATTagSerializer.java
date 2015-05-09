@@ -24,6 +24,7 @@ public class ATTagSerializer extends ATBaseSerializer<ATTagSerializer, ATTag>{
         tag.setName(name);
         tag.setQuestion(question);
         tag.setTagType(ATTagType.fromServerString(tag_type));
+        tag.setCanBeUsedForFirstTime(can_be_used_for_first_time);
         List<ATTagValue> listTagValue = ATTagValueManager.getInstance().updateFromListSerializer(tag_values);
         tag.setTagValues(listTagValue);
         return tag;

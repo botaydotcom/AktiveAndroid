@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import im.aktive.aktive.api_requester.ATAPICallWrapper;
-import im.aktive.aktive.helper.ATDateTimeUtils;
+import im.aktive.aktive.util.ATDateTimeUtils;
 import im.aktive.aktive.manager.ATActivityManager;
 import im.aktive.aktive.manager.ATUserActivityManager;
 import im.aktive.aktive.model.ATActivity;

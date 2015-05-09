@@ -33,11 +33,14 @@ public class ATBaseManager<T> implements ATGlobalEventCallbackInterface {
 
         public synchronized int addRequestCallback(ATWrappedModelRequestCallback cb)
         {
-            WeakReference<ATAPICallWrapper> apiCallWrapperRef = cb.getCallWrapperRef();
-            ATAPICallWrapper callWrapper = apiCallWrapperRef.get();
             int requestId = currentRequestId++;
-            requestMap.put(Integer.valueOf(requestId), apiCallWrapperRef);
-            callWrapper.addCallbackForRequestId(requestId, cb);
+            if (cb != null)
+            {
+                WeakReference<ATAPICallWrapper> apiCallWrapperRef = cb.getCallWrapperRef();
+                ATAPICallWrapper callWrapper = apiCallWrapperRef.get();
+                requestMap.put(Integer.valueOf(requestId), apiCallWrapperRef);
+                callWrapper.addCallbackForRequestId(requestId, cb);
+            }
             return requestId;
         }
 

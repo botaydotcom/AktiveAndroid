@@ -44,6 +44,14 @@
             android:name=".ATAddNewUserTodoActivity"
             android:label="@string/title_activity_atadd_new_user_todo" >
         </activity>
+        <activity
+            android:name=".ATSuggestionActivity"
+            android:label="@string/title_activity_atsuggestion" >
+        </activity>
+        <activity
+            android:name=".ATSuggestionResultActivity"
+            android:label="@string/title_activity_atsuggestion_result" >
+        </activity>
     </application>
 
 </manifest>

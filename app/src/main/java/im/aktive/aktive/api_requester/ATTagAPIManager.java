@@ -29,7 +29,7 @@ public class ATTagAPIManager {
 
     public boolean fetchAllTags(final ATNetworkCallback callback) {
         Map<String, String> queryParams = new HashMap<String,String>();
-        queryParams.put("is_first_time", TRUE);
+        queryParams.put("is_first_time", FALSE);
         boolean result = apiManager.requestAsync(GET_TAGS, "GET", queryParams, null, callback);
         return result;
     }

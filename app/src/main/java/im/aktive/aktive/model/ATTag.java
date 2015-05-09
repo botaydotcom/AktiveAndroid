@@ -16,6 +16,8 @@ public class ATTag {
     private Date updatedAt;
     private List<ATTagValue> tagValues = new ArrayList<ATTagValue>();
 
+    private boolean canBeUsedForFirstTime;
+
     public ATTag(int id)
     {
         this.id = id;
@@ -76,5 +78,13 @@ public class ATTag {
 
     public void addTagValue(ATTagValue tagValue) {
         this.tagValues.add(tagValue);
+    }
+
+    public boolean getCanBeUsedForFirstTime() {
+        return canBeUsedForFirstTime;
+    }
+
+    public void setCanBeUsedForFirstTime(boolean canBeUsedForFirstTime) {
+        this.canBeUsedForFirstTime = canBeUsedForFirstTime;
     }
 }

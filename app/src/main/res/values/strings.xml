@@ -38,5 +38,19 @@
     <string name="ok_done_action">Ok, done</string>
     <string name="activity_name_too_short_notice">Please provide a name for your activity</string>
     <string name="hint_new_todo_description">Some descriptions for this activity</string>
-
+    <string name="title_activity_atsuggestion">ATSuggestionActivity</string>
+    <string name="let_me_think_text">Hmm, let me think...</string>
+    <string name="no_result_text">No suitable result is found, please retry with different values :)</string>
+    <string name="title_activity_atsuggestion_result">ATSuggestionResultActivity</string>
+    <string name="sound_great_text">Sounds great</string>
+    <string name="absolutely_not_text">Absolutely not</string>
+    <string name="another_time_text">Maybe another time</string>
+    <string name="self_decide_text">No worries, I\'ll decide myself</string>
+    <string name="sorry_no_result_text">Sorry, we run out of idea at the moment :(</string>
+    <string-array name="suggestion_leading_text">
+        <item>Ok, I think you can...</item>
+        <item>How about you...</item>
+        <item>A good choice for you is...</item>
+        <item>Let\'s...</item>
+    </string-array>
 </resources>

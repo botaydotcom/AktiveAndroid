@@ -1,4 +1,4 @@
-package im.aktive.aktive.helper;
+package im.aktive.aktive.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

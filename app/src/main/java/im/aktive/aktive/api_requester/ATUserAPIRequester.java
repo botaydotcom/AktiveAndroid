@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-import im.aktive.aktive.helper.ATDateTimeUtils;
+import im.aktive.aktive.util.ATDateTimeUtils;
 import im.aktive.aktive.model.ATUser;
 import im.aktive.aktive.network.ATNetworkCallback;
 
@@ -28,6 +28,7 @@ public class ATUserAPIRequester {
     private static final String POST_COVER_FOR_USER = "/api/profile/cover.json";
 
     private static final String INPUT_TAG_FIRST_TIME = "/api/profile/input_first_time.json";
+    private static final String INPUT_TAG = "/api/profile/input.json";
     public ATUserAPIRequester()
     {
         apiManager = ATAPIManager.getInstance();
@@ -88,6 +89,26 @@ public class ATUserAPIRequester {
             return false;
         }
         String url = INPUT_TAG_FIRST_TIME;
+        boolean result = apiManager.requestAsync(url, "POST", null, requestObject, callback);
+        return result;
+    }
+
+    public boolean inputTag(Map<Integer, Integer> mapTagAnswer, ATNetworkCallback callback) {
+        JSONObject requestObject = new JSONObject();
+        JSONArray tagObjectList = new JSONArray();
+        try {
+            for (Integer key : mapTagAnswer.keySet())
+            {
+                JSONObject answerObject = new JSONObject();
+                answerObject.put("id", key);
+                answerObject.put("tag_value_id", mapTagAnswer.get(key));
+                tagObjectList.put(answerObject);
+            }
+            requestObject.put("tags", tagObjectList);
+        } catch (JSONException e) {
+            return false;
+        }
+        String url = INPUT_TAG;
         boolean result = apiManager.requestAsync(url, "POST", null, requestObject, callback);
         return result;
     }

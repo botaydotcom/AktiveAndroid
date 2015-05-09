@@ -11,6 +11,8 @@ import im.aktive.aktive.model.ATTagValue;
 public class ATTagValueManager extends ATBaseManager<ATTagValue>{
     private static ATTagValueManager instance = null;
     private Map<Integer, ATTagValue> mapTagValue = new HashMap<Integer, ATTagValue>();
+    private static final int SKIP_ID = -1;
+    private static ATTagValue sSkipTagValue = null;
 
     private ATTagValueManager()
     {
@@ -35,5 +37,14 @@ public class ATTagValueManager extends ATBaseManager<ATTagValue>{
             tagValue = new ATTagValue(id);
         }
         return tagValue;
+    }
+
+    public ATTagValue getSkipTagValue() {
+        if (sSkipTagValue == null)
+        {
+            sSkipTagValue = new ATTagValue(SKIP_ID);
+            sSkipTagValue.setName("Skip");
+        }
+        return sSkipTagValue;
     }
 }

@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import im.aktive.aktive.helper.ATDateTimeUtils;
+import im.aktive.aktive.util.ATDateTimeUtils;
 import im.aktive.aktive.model.ATActivity;
 import im.aktive.aktive.network.ATNetworkCallback;
 

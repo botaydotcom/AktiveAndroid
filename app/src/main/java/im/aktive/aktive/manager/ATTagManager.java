@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import im.aktive.aktive.api_requester.ATTagAPIManager;
 import im.aktive.aktive.model.ATTag;
+import im.aktive.aktive.model.ATTagValue;
+import im.aktive.aktive.model.ATUser;
 import im.aktive.aktive.model.ATWrappedModelRequestCallback;
 import im.aktive.aktive.network.ATNetworkCallback;
 import im.aktive.aktive.serializer.ATTagSerializer;
@@ -59,7 +62,13 @@ public class ATTagManager extends ATBaseManager<ATTag> {
     public List<ATTag> getListTag(boolean forFirstTime)
     {
         List<ATTag> listResult = new ArrayList<ATTag>();
-        listResult.addAll(mapTag.values());
+        for (ATTag tag : mapTag.values())
+        {
+            if (tag.getCanBeUsedForFirstTime() == forFirstTime)
+            {
+                listResult.add(tag);
+            }
+        }
         return listResult;
     }
 
@@ -97,5 +106,63 @@ public class ATTagManager extends ATBaseManager<ATTag> {
         };
         ATTagAPIManager controller = new ATTagAPIManager();
         controller.fetchTagsForFirstTime(callback);
+    }
+
+    public void fetchTags(ATWrappedModelRequestCallback cb)
+    {
+        final int requestId = addRequestCallback(cb);
+        ATNetworkCallback callback = new ATNetworkCallback() {
+            @Override
+            public void onFinished(JSONObject jsonObject) {
+                JSONArray tagArray;
+                try {
+                    tagArray = jsonObject.getJSONArray("tags");
+                    ATTagSerializer[] tagSerializerList = new ATTagSerializer[tagArray.length()];
+                    for (int i = 0; i < tagArray.length(); i++)
+                    {
+                        JSONObject object = tagArray.getJSONObject(i);
+                        ATTagSerializer tagSerializer = new ATTagSerializer().deserialize(object);
+                        tagSerializerList[i] = tagSerializer;
+                    }
+                    List<ATTag> listTags = ATTagManager.getInstance().updateFromListSerializer(tagSerializerList);
+                    deliverResult(requestId, true, listTags, null);
+                } catch (JSONException e)
+                {
+                    onFailed("Cannot parse result from server");
+                } catch (Exception e)
+                {
+                    onFailed("Cannot parse result from server");
+                }
+            }
+
+            @Override
+            public void onFailed(String errMsg) {
+                deliverResult(requestId, false, null, errMsg);
+            }
+        };
+        ATTagAPIManager controller = new ATTagAPIManager();
+        controller.fetchAllTags(callback);
+    }
+
+    @Override
+    public void onPostLogin(ATUser user)
+    {
+        fetchTags(null);
+    }
+
+    private int min(int a, int b)
+    {
+        return a < b? a: b;
+    }
+
+    public List<ATTag> getListTagForSuggestion() {
+        List<ATTag> listResult = getListTag(false);
+        Random random = new Random();
+        for (int i = 0; i <= listResult.size() - min(5, listResult.size()); i++)
+        {
+            int j = random.nextInt(listResult.size());
+            listResult.remove(j);
+        }
+        return listResult;
     }
 }

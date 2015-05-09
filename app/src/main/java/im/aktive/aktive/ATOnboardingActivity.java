@@ -17,22 +17,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import im.aktive.aktive.R;
 import im.aktive.aktive.api_requester.ATAPICallWrapper;
 import im.aktive.aktive.manager.ATTagManager;
 import im.aktive.aktive.manager.ATUserManager;
@@ -51,8 +46,8 @@ public class ATOnboardingActivity extends ActionBarActivity implements Onboardin
     private ATUser mUser = null;
     private List<ATTag> mTagList = null;
     private int mCurrentPage = 0;
-    private ViewPager mImagePager = null;
-    private OnboardingPageAdapter mImagePagerAdapter = null;
+    private ViewPager mOnboardingPager = null;
+    private OnboardingPageAdapter mOnboardingPagerAdapter = null;
     private Map<Integer, Integer> mMapTagAnswer = new HashMap<Integer, Integer>();
     ATAPICallWrapper mCallWrapper = new ATAPICallWrapper();
 
@@ -61,10 +56,10 @@ public class ATOnboardingActivity extends ActionBarActivity implements Onboardin
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
         mTagList = ATTagManager.getInstance().getListTag(true);
-        mImagePager = (ViewPager) findViewById(R.id.pager_image_background);
-        mImagePagerAdapter = new OnboardingPageAdapter(getSupportFragmentManager());
-        mImagePager.setAdapter(mImagePagerAdapter);
-        /*mImagePager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mOnboardingPager = (ViewPager) findViewById(R.id.pager_onboarding_steps);
+        mOnboardingPagerAdapter = new OnboardingPageAdapter(getSupportFragmentManager());
+        mOnboardingPager.setAdapter(mOnboardingPagerAdapter);
+        /*mOnboardingPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int page) {
@@ -108,10 +103,10 @@ public class ATOnboardingActivity extends ActionBarActivity implements Onboardin
     @Override
     public void goToNextPage()
     {
-        if (mCurrentPage + 1 < mImagePagerAdapter.getCount())
+        if (mCurrentPage + 1 < mOnboardingPagerAdapter.getCount())
         {
             mCurrentPage++;
-            mImagePager.setCurrentItem(mCurrentPage);
+            mOnboardingPager.setCurrentItem(mCurrentPage);
         } else {
             ATUserManager.getInstance().inputTagFirstTime(mMapTagAnswer, new ATWrappedModelRequestCallback(mCallWrapper) {
 
@@ -450,7 +445,7 @@ public class ATOnboardingActivity extends ActionBarActivity implements Onboardin
             TextView question = (TextView) rootView.findViewById(R.id.text_onboard_question);
             question.setText(mTag.getQuestion());
             List<ATTagValue> listAnswer = mTag.getTagValues();
-            int numRow = listAnswer.size() / 2;
+            int numRow = (listAnswer.size() + 1) / 2;
             LinearLayout listAnswerLayout = (LinearLayout)rootView.findViewById(R.id.list_answers);
             for (int i = 0; i < numRow; i++)
             {

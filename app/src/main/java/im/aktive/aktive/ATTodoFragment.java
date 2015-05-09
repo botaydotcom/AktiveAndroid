@@ -118,6 +118,8 @@ public class ATTodoFragment extends Fragment implements ATModelUpdateCallback{
     }
 
     private void onSuggestNewActivityClicked() {
+        Intent i = new Intent(getActivity(), ATSuggestionActivity.class);
+        getActivity().startActivity(i);
     }
 
     private void onCreateNewActivityClicked() {
